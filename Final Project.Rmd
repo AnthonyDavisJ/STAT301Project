@@ -1,0 +1,26 @@
+---
+title: "STAT301 Final Project"
+author: "Anthony Davis"
+date: "2024-04-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+NewWaste=Wastedata1%>%
+  gather(key="RecycleType",value=RecycleTons,`Res Tons`,`CII Tons`)%>%
+  filter(Year%in%c(2013,2014,2015,2016,2017))
+model=aov(RecycleTons~RecycleType+Year+RecycleType*Year,data=NewWaste)
+summary(model)
+```
+```{r}
+Year=NewWaste$Year
+Type=NewWaste$RecycleType
+Tons=NewWaste$RecycleTons
+interaction.plot(Year,Type,Tons,fun=mean)
+```
+
+
